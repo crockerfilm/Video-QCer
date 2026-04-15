@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FramePunch</title>
+<title>FrameCheck</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -168,7 +168,7 @@ button{cursor:pointer;font-family:var(--sans)}
 </head>
 <body>
 <div class="hdr">
-  <h1>FramePunch <span class="sub" style="margin-left:6px">v1.0</span></h1>
+  <h1>FrameCheck <span class="sub" style="margin-left:6px">v1.0</span></h1>
   <div class="hdr-r">
     <span class="tag" id="overallTag" style="display:none"></span>
     <button class="btn" id="exportBtn" style="display:none" title="Export QC report as text">Export Report</button>
@@ -244,7 +244,7 @@ button{cursor:pointer;font-family:var(--sans)}
 
     <div class="panel disclaimer-banner">
       <div class="title">This is a safe zone and cropping tool with a few bonus checks</div>
-      <div class="body">FramePunch is primarily built for <strong>previewing safe zones, checking aspect ratio crops, and catching obvious structural defects</strong> like black frames, baked-in bars, or edge slivers. The audio and frame analysis sections are lightweight bonus flags — they can catch clipping or an extremely quiet export, but they are not a substitute for proper audio metering or color scoping. <strong>This tool does not replace human QC.</strong> It cannot read text, so it will never catch typos, misspellings, wrong copy, incorrect legal lines, or bad supers. It cannot judge timing, pacing, brand tone, or whether the edit actually makes sense. It cannot verify platform-specific safe zone compliance beyond the static overlay shown here. <strong>Every video still requires a detailed human watch-through before approval</strong> — eyes on every frame, reading every word on screen. Use FramePunch to speed up the mechanical checks, not to skip the human ones.</div>
+      <div class="body">FrameCheck is primarily built for <strong>previewing safe zones, checking aspect ratio crops, and catching obvious structural defects</strong> like black frames, baked-in bars, or edge slivers. The audio and frame analysis sections are lightweight bonus flags — they can catch clipping or an extremely quiet export, but they are not a substitute for proper audio metering or color scoping. <strong>This tool does not replace human QC.</strong> It cannot read text, so it will never catch typos, misspellings, wrong copy, incorrect legal lines, or bad supers. It cannot judge timing, pacing, brand tone, or whether the edit actually makes sense. It cannot verify platform-specific safe zone compliance beyond the static overlay shown here. <strong>Every video still requires a detailed human watch-through before approval</strong> — eyes on every frame, reading every word on screen. Use FrameCheck to speed up the mechanical checks, not to skip the human ones.</div>
     </div>
 
     <div class="sec-hdr"><span>Specs</span><span class="tag" id="specTag"></span></div>
@@ -511,7 +511,7 @@ function cycleSpeed(dir){
 function wireExport(){
   q('exportBtn').onclick=()=>{
     if(!meta)return;
-    let report='FRAMEPUNCH QC REPORT (v1.0)\n';
+    let report='FRAMECHECK QC REPORT (v1.0)\n';
     report+='============================\n';
     report+='File: '+meta.name+'\n';
     report+='Resolution: '+meta.w+'x'+meta.h+' ('+meta.ratio+')\n';
