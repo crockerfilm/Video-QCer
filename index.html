@@ -37,7 +37,8 @@ button{cursor:pointer;font-family:var(--sans)}
 .drop-zone .label{color:var(--text2);font-size:13px}
 .drop-zone .sublabel{color:var(--text3);font-size:11px;margin-top:3px;font-family:var(--mono)}
 
-.main{display:grid;grid-template-columns:1fr 1fr;gap:0;height:calc(100vh - 49px)}
+.main{display:flex;flex-direction:column;height:calc(100vh - 49px)}
+.main-cols{display:grid;grid-template-columns:1fr 1fr;gap:0;flex:1;overflow:hidden}
 .col-left{border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
 .col-right{display:flex;flex-direction:column;overflow-y:auto;background:var(--bg)}
 
@@ -73,22 +74,12 @@ button{cursor:pointer;font-family:var(--sans)}
 .crop-wrap{width:100%;overflow:hidden;border-radius:6px;background:#000;border:1px solid var(--border);position:relative}
 .crop-wrap video{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;display:block}
 
-.specs-grid,.metric-grid,.check-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-bottom:1px solid var(--border)}
-.metric-grid-4{grid-template-columns:repeat(4,1fr)}
-.metric-grid-4 .metric-cell:nth-child(3n){border-right:1px solid var(--border)}
-.metric-grid-4 .metric-cell:nth-child(4n){border-right:none}
-.metric-grid-4 .metric-cell:last-child{border-right:none}
-.spec-cell,.metric-cell,.check-cell{padding:8px 12px;border-right:1px solid var(--border);text-align:center;background:var(--surface)}
-.spec-cell:last-child,.metric-cell:last-child,.check-cell:last-child{border-right:none}
-.spec-cell:nth-child(3n),.metric-cell:nth-child(3n),.check-cell:nth-child(3n){border-right:none}
-.spec-cell .sl,.metric-cell .sl,.check-cell .sl{font-size:8px;color:var(--text4);font-family:var(--mono);text-transform:uppercase;letter-spacing:.8px;margin-bottom:1px}
-.spec-cell .sv,.metric-cell .sv,.check-cell .sv{font-size:14px;font-weight:700;font-family:var(--mono);color:var(--text)}
-.spec-cell .ss,.metric-cell .ss,.check-cell .ss{font-size:9px;color:var(--text3);font-family:var(--mono);margin-top:1px}
-.check-cell.check-warn{background:var(--warn-bg);border-color:var(--warn-border)}
-.check-cell.check-warn .sv{color:var(--warn)}
-.check-cell.check-fail{background:var(--fail-bg);border-color:var(--fail-border)}
-.check-cell.check-fail .sv{color:var(--fail)}
-.check-cell.check-pass .sv{color:var(--pass)}
+.specs-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-bottom:1px solid var(--border)}
+.spec-cell{padding:8px 12px;border-right:1px solid var(--border);text-align:center;background:var(--surface)}
+.spec-cell:last-child{border-right:none}
+.spec-cell .sl{font-size:8px;color:var(--text4);font-family:var(--mono);text-transform:uppercase;letter-spacing:.8px;margin-bottom:1px}
+.spec-cell .sv{font-size:14px;font-weight:700;font-family:var(--mono);color:var(--text)}
+.spec-cell .ss{font-size:9px;color:var(--text3);font-family:var(--mono);margin-top:1px}
 
 .panel{padding:10px 14px;border-bottom:1px solid var(--border)}
 .panel-empty{text-align:center;padding:16px;color:var(--text3);font-family:var(--mono);font-size:10px}
@@ -119,10 +110,8 @@ button{cursor:pointer;font-family:var(--sans)}
 .leg-ok::before{background:#34d399}
 .leg-clip::before{background:#f87171}
 .note{font-size:9px;color:var(--text3);font-family:var(--mono);margin-top:6px;line-height:1.5}
-.disclaimer-banner{margin:12px 14px 10px;padding:14px 16px;border:1px solid var(--border2);background:var(--surface2);border-radius:12px;box-shadow:var(--shadow)}
-.disclaimer-banner .title{font-size:13px;font-weight:700;color:var(--text);letter-spacing:-0.1px;margin-bottom:6px}
-.disclaimer-banner .body{font-size:11.5px;line-height:1.6;color:var(--text2)}
-.disclaimer-banner .body strong{color:var(--text)}
+.disclaimer-banner{padding:7px 24px;border-bottom:1px solid var(--border);background:var(--surface);font-size:10px;line-height:1.5;color:var(--text3);font-family:var(--mono);flex-shrink:0}
+.disclaimer-banner strong{color:var(--text2)}
 .thumb-summary{margin-top:10px;font-size:10px;color:var(--text2);font-family:var(--mono);line-height:1.5}
 .thumb-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:6px;margin-top:10px}
 .thumb-card{appearance:none;-webkit-appearance:none;text-align:left;background:var(--surface2);border:1px solid var(--border);border-radius:10px;overflow:hidden;padding:0;box-shadow:var(--shadow);cursor:pointer;transition:transform .12s,border-color .12s,box-shadow .12s}
@@ -133,7 +122,6 @@ button{cursor:pointer;font-family:var(--sans)}
 .thumb-card .thumb-flags{display:flex;flex-wrap:wrap;gap:2px;margin-top:2px}
 .thumb-flag{font-size:6px;padding:1px 3px;border-radius:2px;font-weight:700;font-family:var(--mono);line-height:1.2}
 .thumb-flag.tf-border{background:#a78bfa;color:#111}
-.thumb-flag.tf-sliver{background:#f472b6;color:#111}
 .issue-linked{cursor:pointer;transition:transform .1s}
 .issue-linked:hover{transform:translateX(2px)}
 .thumb-card img{display:block;width:100%;aspect-ratio:9/16;object-fit:cover;background:#000}
@@ -149,20 +137,20 @@ button{cursor:pointer;font-family:var(--sans)}
 #speedSelect{-webkit-appearance:none;appearance:none;background:var(--surface2);color:var(--text2);cursor:pointer}
 #stepBackBtn,#stepFwdBtn{font-size:10px;min-width:28px;padding:4px 6px}
 @media(max-width:980px){
-  .main{grid-template-columns:1fr;height:auto}
+  .main{height:auto}
+  .main-cols{grid-template-columns:1fr;height:auto}
   .col-left{border-right:none;border-bottom:1px solid var(--border);min-height:60vh}
 }
 @media(max-width:640px){
   .audio-stats{grid-template-columns:repeat(2,1fr)}
-  .specs-grid,.metric-grid,.metric-grid-4,.check-grid{grid-template-columns:repeat(2,1fr)}
-  .spec-cell:nth-child(3n),.metric-cell:nth-child(3n),.check-cell:nth-child(3n){border-right:1px solid var(--border)}
-  .spec-cell:nth-child(2n),.metric-cell:nth-child(2n),.check-cell:nth-child(2n){border-right:none}
+  .specs-grid{grid-template-columns:repeat(2,1fr)}
+  .spec-cell:nth-child(2n){border-right:none}
 }
 </style>
 </head>
 <body>
 <div class="hdr">
-  <h1>FrameCheck <span class="sub" style="margin-left:6px">v1.1</span></h1>
+  <h1>FrameCheck <span class="sub" style="margin-left:6px">v1.3</span></h1>
   <div class="hdr-r">
     <span class="tag" id="overallTag" style="display:none"></span>
     <button class="btn" id="exportBtn" style="display:none" title="Export QC report as text">Export Report</button>
@@ -181,6 +169,10 @@ button{cursor:pointer;font-family:var(--sans)}
 </div>
 
 <div class="main hidden" id="mainUI">
+  <div class="disclaimer-banner">
+    <strong>Not a replacement for human QC.</strong> Catches baked-in bars, clipping, and very quiet audio. Cannot read text, judge pacing, or verify platform compliance. Always do a full watch-through before approval.
+  </div>
+  <div class="main-cols">
   <div class="col-left">
     <div class="sec-hdr">
       <div class="sec-hdr-left">
@@ -235,28 +227,20 @@ button{cursor:pointer;font-family:var(--sans)}
       <div class="crop-col"><div class="crop-label">16:9 Wide</div><div class="crop-wrap" id="crop169"></div></div>
     </div>
 
-    <div class="panel disclaimer-banner">
-      <div class="title">This is a safe zone and cropping tool with a few bonus checks</div>
-      <div class="body">FrameCheck is primarily built for <strong>previewing safe zones, checking aspect ratio crops, and catching obvious structural defects</strong> like baked-in bars or edge slivers. The audio section is a lightweight bonus flag — it can catch clipping or flag an extremely quiet export, but it is not a substitute for proper loudness metering (your DAW's integrated LUFS meter is always more accurate). <strong>This tool does not replace human QC.</strong> It cannot read text, so it will never catch typos, misspellings, wrong copy, incorrect legal lines, or bad supers. It cannot judge timing, pacing, brand tone, or whether the edit actually makes sense. It cannot verify platform-specific safe zone compliance beyond the static overlay shown here. It does not check for dark starts/ends, black frames, freeze frames, or brightness issues — sampling cannot reliably distinguish those from intentional creative choices. <strong>Every video still requires a detailed human watch-through before approval</strong> — eyes on every frame, reading every word on screen. Use FrameCheck to speed up the mechanical checks, not to skip the human ones.</div>
-    </div>
-
     <div class="sec-hdr"><span>Specs</span><span class="tag" id="specTag"></span></div>
     <div class="specs-grid" id="specsGrid"></div>
 
     <div class="sec-hdr"><span>Audio</span><span class="tag" id="audioTag"></span></div>
     <div class="panel" id="audioSection"><div class="panel-empty">Analyzing...</div></div>
 
-    <div class="sec-hdr"><span>Frame Analysis</span><span class="tag" id="colorTag"></span></div>
+    <div class="sec-hdr"><span>Sampled Frames</span><span class="tag" id="colorTag"></span></div>
     <div class="panel" id="colorSection"><div class="panel-empty">Sampling frames...<div class="progress-bar"><div class="progress-fill" id="colorProgress"></div></div></div></div>
-
-    <div class="sec-hdr"><span>Practical Checks</span><span class="tag tag-neutral" id="checkTag">Waiting</span></div>
-    <div class="panel" id="checkSection"><div class="panel-empty">Building quick checks...</div></div>
+  </div>
   </div>
 </div>
 
 <script>
 function fmt(s){if(!s&&s!==0)return"0:00";const m=Math.floor(s/60),sec=Math.floor(s%60);return m+":"+String(sec).padStart(2,"0");}
-function fmtMs(s){if(!s&&s!==0)return"0:00.000";const m=Math.floor(s/60),sec=Math.floor(s%60),ms=Math.round((s%1)*1000);return m+":"+String(sec).padStart(2,"0")+"."+String(ms).padStart(3,"0");}
 function fmtB(b){if(b<1048576)return(b/1024).toFixed(0)+" KB";if(b<1073741824)return(b/1048576).toFixed(1)+" MB";return(b/1073741824).toFixed(2)+" GB";}
 function fmtBr(bps){return bps>1e6?(bps/1e6).toFixed(1)+" Mbps":(bps/1e3).toFixed(0)+" kbps";}
 function getRatio(w,h){const r=w/h;const m=[[9/16,"9:16"],[1,"1:1"],[4/5,"4:5"],[16/9,"16:9"],[3/4,"3:4"],[2/3,"2:3"]];for(const[v,n]of m)if(Math.abs(r-v)<0.03)return n;return w+":"+h;}
@@ -269,8 +253,6 @@ function issueHTML(level, title, body, fix){
   const badge = level==='fail' ? 'Fail' : level==='warn' ? 'Warn' : 'Pass';
   return '<div class="issue '+level+'"><div class="issue-top"><div class="issue-title">'+title+'</div><div class="issue-badge">'+badge+'</div></div><div class="issue-body">'+body+'</div>'+(fix ? '<div class="issue-fix">'+fix+'</div>' : '')+'</div>';
 }
-function metricCell(label, value, sub){return '<div class="metric-cell"><div class="sl">'+label+'</div><div class="sv">'+value+'</div><div class="ss">'+sub+'</div></div>';}
-function checkCell(label, value, sub, level){return '<div class="check-cell'+(level==='warn'?' check-warn':level==='fail'?' check-fail':' check-pass')+'"><div class="sl">'+label+'</div><div class="sv">'+value+'</div><div class="ss">'+sub+'</div></div>';}
 function mean(arr){return arr.reduce((a,b)=>a+b,0)/Math.max(arr.length,1);}
 
 // Adaptive sampling: interval and edge window scale with video length
@@ -329,7 +311,9 @@ function jumpToTime(t){
   allVids.forEach(v=>{if(v&&v.duration)v.currentTime=clamped;});
   q('scrubber').value=Math.round((clamped/vm.duration)*10000);
   q('timeLabel').textContent=fmt(clamped)+' / '+fmt(vm.duration);
-  const ph=q('wfPH');if(ph)ph.style.left=((clamped/vm.duration)*100)+'%';
+  const pct=((clamped/vm.duration)*100)+'%';
+  const ph=q('wfPH');if(ph)ph.style.left=pct;
+  const btph=q('btPH');if(btph)btph.style.left=pct;
 }
 
 let videoUrl=null,meta=null,allVids=[],scrubbing=false,playing=false;
@@ -355,10 +339,8 @@ function resetApp(){
   q('overallTag').style.display='none';
   q('audioSection').innerHTML='<div class="panel-empty">Analyzing...</div>';
   q('colorSection').innerHTML='<div class="panel-empty">Sampling frames...<div class="progress-bar"><div class="progress-fill" id="colorProgress"></div></div></div>';
-  q('checkSection').innerHTML='<div class="panel-empty">Building quick checks...</div>';
   statusTag(q('audioTag'),'neutral','Waiting');
   statusTag(q('colorTag'),'neutral','Waiting');
-  statusTag(q('checkTag'),'neutral','Waiting');
 }
 
 function load(file){
@@ -408,7 +390,9 @@ function wireTransport(){
     if(!scrubbing&&vm.duration){
       scr.value=Math.round(vm.currentTime/vm.duration*10000);
       tl.textContent=fmt(vm.currentTime)+' / '+fmt(vm.duration);
-      const ph=q('wfPH');if(ph)ph.style.left=(vm.currentTime/vm.duration*100)+'%';
+      const pct=(vm.currentTime/vm.duration*100)+'%';
+      const ph=q('wfPH');if(ph)ph.style.left=pct;
+      const btph=q('btPH');if(btph)btph.style.left=pct;
     }
   };
   scr.oninput=()=>{
@@ -416,7 +400,9 @@ function wireTransport(){
     const t=parseInt(scr.value,10)/10000*(vm.duration||0);
     allVids.forEach(v=>{if(v&&v.duration)v.currentTime=t;});
     tl.textContent=fmt(t)+' / '+fmt(vm.duration);
-    const ph=q('wfPH');if(ph&&vm.duration)ph.style.left=(t/vm.duration*100)+'%';
+    const pct=vm.duration?(t/vm.duration*100)+'%':'0%';
+    const ph=q('wfPH');if(ph)ph.style.left=pct;
+    const btph=q('btPH');if(btph)btph.style.left=pct;
   };
   scr.onchange=()=>{scrubbing=false;};
   pb.onclick=()=>{
@@ -503,7 +489,7 @@ function cycleSpeed(dir){
 function wireExport(){
   q('exportBtn').onclick=()=>{
     if(!meta)return;
-    let report='FRAMECHECK QC REPORT (v1.1)\n';
+    let report='FRAMECHECK QC REPORT (v1.3)\n';
     report+='============================\n';
     report+='File: '+meta.name+'\n';
     report+='Resolution: '+meta.w+'x'+meta.h+' ('+meta.ratio+')\n';
@@ -533,11 +519,6 @@ function wireExport(){
       report+='Overall: '+v.overall.toUpperCase()+'\n';
       report+='Frames Sampled: '+v.sampleCount+' ('+v.stratLabel+')\n';
       report+='Embedded Bars: '+(v.likelyBorders?v.barType:'None')+'\n';
-      report+='Edge Slivers: '+(v.hasSlivers?v.sliverEdges.join(', '):'None')+'\n';
-      report+='\nReference (not flagged):\n';
-      report+='  Avg Luma: '+v.avgLuma.toFixed(0)+'\n';
-      report+='  Near-White: '+(v.avgHighlightPct*100).toFixed(1)+'%\n';
-      report+='  Near-Black: '+(v.avgShadowPct*100).toFixed(1)+'%\n';
       report+='\n';
     }
 
@@ -553,8 +534,18 @@ function wireExport(){
   };
 }
 
-// Issue markers on the scrubber (stub — no per-timestamp checks remain)
-function placeIssueMarkers(){}
+// Update the overall header badge based on audio + visual results
+function updateOverallTag(){
+  const oTag=q('overallTag');
+  if(!oTag)return;
+  const a=analysisState.audio;
+  const v=analysisState.visual;
+  const hasFail=(a&&a.overall==='fail')||(v&&v.overall==='fail');
+  const hasWarn=(a&&(a.overall==='warn'||a.noAudio))||(v&&v.overall==='warn');
+  if(hasFail){statusTag(oTag,'fail','ISSUES FOUND');oTag.style.display='';}
+  else if(hasWarn){statusTag(oTag,'warn','REVIEW');oTag.style.display='';}
+  else if(a||v){statusTag(oTag,'pass','LOOKS OK');oTag.style.display='';}
+}
 
 function mkCrop(id,pct){
   const c=q(id);c.innerHTML='';
@@ -579,10 +570,8 @@ function renderSpecs(){
   const specs=[
     {l:'Resolution',v:meta.w+'x'+meta.h,s:meta.ratio},
     {l:'Duration',v:fmt(meta.dur),s:Math.round(meta.dur)+'s'},
-    {l:'File Size',v:fmtB(meta.size),s:(meta.type.split('/')[1]||'VIDEO').toUpperCase()},
+    {l:'File Size',v:fmtB(meta.size),s:(meta.type.split('/')[1]||'video').toUpperCase()},
     {l:'Bitrate',v:fmtBr(meta.bitrate),s:meta.bitrate>15e6?'High':meta.bitrate<2e6?'Low':'Standard'},
-    {l:'Container',v:(meta.type.split('/')[1]||'Unknown').toUpperCase(),s:'Codec not exposed by browser'},
-    {l:'Ratio',v:meta.ratio,s:meta.w+'x'+meta.h},
   ];
 
   specs.forEach(c=>{
@@ -621,46 +610,17 @@ async function analyzeAudio(file){
     const rmsDb=safeDb(rms);
     const peakDb=safeDb(peak);
     const estLufs=rmsDb-0.691;
-    const targetLufs=-14;
-    const gainToTarget=targetLufs-estLufs;
-    const stereoDelta=channels>=2?Math.abs(safeDb(chRms[0])-safeDb(chRms[1])):0;
 
-    const binDur=0.05; // IMPROVED: finer bins for better click/pop detection
+    const binDur=0.05;
     const N=clamp(Math.ceil(duration/binDur),80,500);
     const binSz=Math.max(1,Math.floor(length/N));
     const rmsA=[],dbA=[],peakA=[];
-    let quietBins=0,swings=0,maxSw=0,hotBins=0,clipBins=0,currentQuietRun=0,longestQuietRunBins=0;
-    // IMPROVED: click/pop detection
-    let popBins=0,popTimes=[];
-    const microBinSz=Math.max(1,Math.floor(buf.sampleRate*0.003)); // 3ms micro bins for pop detection
+    let clipBins=0;
 
     for(let b=0;b<N;b++){
       let s=0,pk=0,count=0;
       const st=b*binSz;
       const en=Math.min(length,st+binSz);
-      // Check for micro-transients (pops/clicks) within this bin
-      let maxMicroJump=0;
-      let prevMicroRms=null;
-      for(let mi=st;mi<en;mi+=microBinSz){
-        let ms=0,mc=0;
-        const me=Math.min(en,mi+microBinSz);
-        for(let i=mi;i<me;i++){
-          let mix=0;
-          for(let c=0;c<channels;c++)mix+=chData[c][i];
-          mix/=Math.max(channels,1);
-          ms+=mix*mix;mc++;
-        }
-        const microRms=Math.sqrt(ms/Math.max(mc,1));
-        if(prevMicroRms!==null){
-          const jump=Math.abs(safeDb(microRms)-safeDb(prevMicroRms));
-          if(jump>maxMicroJump)maxMicroJump=jump;
-        }
-        prevMicroRms=microRms;
-      }
-      if(maxMicroJump>25){
-        popBins++;
-        popTimes.push((st/buf.sampleRate).toFixed(2)+'s');
-      }
 
       for(let i=st;i<en;i++){
         let mix=0;
@@ -671,19 +631,8 @@ async function analyzeAudio(file){
       }
       const br=Math.sqrt(s/Math.max(count,1)),bd=safeDb(br);
       rmsA.push(br);dbA.push(bd);peakA.push(pk);
-      if(pk>0.95)hotBins++;
       if(pk>0.99)clipBins++;
-      if(bd<-45){
-        quietBins++;currentQuietRun++;
-        if(currentQuietRun>longestQuietRunBins)longestQuietRunBins=currentQuietRun;
-      }else{currentQuietRun=0;}
     }
-    for(let i=1;i<dbA.length;i++){
-      const d=Math.abs(dbA[i]-dbA[i-1]);
-      if(d>maxSw)maxSw=d;
-      if(d>12)swings++;
-    }
-    const longestQuietRunSec=longestQuietRunBins*(duration/Math.max(N,1));
 
     try{await ctx.close();}catch(e){}
 
@@ -772,80 +721,64 @@ async function analyzeAudio(file){
     }
 
     const nt=document.createElement('div');nt.className='note';
-    nt.textContent='Loudness is a rough RMS estimate, not true LUFS (no K-weighting or gating). This estimate can easily read 4–6 dB lower than your DAW\'s integrated LUFS meter — that gap is normal and expected. Your DAW\'s loudness meter is always more accurate than this estimate. Sample peak is not true peak. Only clipping and extremely quiet audio are flagged here. Volume jumps, quiet sections, stereo balance, and transients are not flagged because they cannot be reliably distinguished from intentional creative choices. Use a proper loudness meter for final decisions.';
+    nt.textContent='Loudness is a rough RMS estimate, not true LUFS — your DAW\'s meter is more accurate. Only clipping and very quiet audio are flagged.';
     sec.appendChild(nt);
 
     analysisState.audio={
       estLufs,peakDb,channels,clipBins,overall
     };
-    renderChecks();
-    placeIssueMarkers();
+    updateOverallTag();
   }catch(e){
     statusTag(tag,'warn','No audio');
     sec.innerHTML='<div class="panel-empty">No audio track or decode error.</div>';
     analysisState.audio={noAudio:true,overall:'warn'};
-    renderChecks();
+    updateOverallTag();
   }
 }
 
-// IMPROVED: per-edge border analysis with thin strip checks
 function frameStats(data,w,h){
-  let sumL=0,sumL2=0,sumSat=0,sumR=0,sumG=0,sumB=0;
-  let high=0,shadow=0;
+  let sumL=0;
   const total=w*h;
   const borderX=Math.max(2,Math.floor(w*0.06));
   const borderY=Math.max(2,Math.floor(h*0.06));
-  // Thin edge strips (2-3px) for sliver detection
-  const thinPx=Math.max(1,Math.min(3,Math.floor(w*0.02)));
-  const thinPy=Math.max(1,Math.min(3,Math.floor(h*0.015)));
   let borderDark=0,borderCount=0;
-  // Per-edge counters
   let topDark=0,topCount=0,botDark=0,botCount=0;
   let leftDark=0,leftCount=0,rightDark=0,rightCount=0;
-  // Thin sliver counters
-  let thinTopDark=0,thinTopCount=0,thinBotDark=0,thinBotCount=0;
-  let thinLeftDark=0,thinLeftCount=0,thinRightDark=0,thinRightCount=0;
+  // Center region: inner 60% of the frame (excludes all border zones generously)
+  const cxStart=Math.floor(w*0.2),cxEnd=Math.floor(w*0.8);
+  const cyStart=Math.floor(h*0.2),cyEnd=Math.floor(h*0.8);
+  let centerSum=0,centerCount=0;
 
   for(let y=0;y<h;y++){
     for(let x=0;x<w;x++){
       const idx=(y*w+x)*4;
       const r=data[idx],g=data[idx+1],b=data[idx+2];
-      const max=Math.max(r,g,b),min=Math.min(r,g,b);
-      const sat=max?(max-min)/max:0;
       const l=0.2126*r+0.7152*g+0.0722*b;
-      sumL+=l;sumL2+=l*l;sumSat+=sat;sumR+=r;sumG+=g;sumB+=b;
-      if(l>250)high++;
-      if(l<8)shadow++;
+      sumL+=l;
+      // Center region luminance
+      if(x>=cxStart&&x<cxEnd&&y>=cyStart&&y<cyEnd){
+        centerSum+=l;centerCount++;
+      }
       // General border check
       if(x<borderX||x>=w-borderX||y<borderY||y>=h-borderY){
         borderCount++;if(l<10)borderDark++;
       }
-      // Per-edge checks
+      // Per-edge checks (for letterbox/pillarbox)
       if(y<borderY){topCount++;if(l<10)topDark++;}
       if(y>=h-borderY){botCount++;if(l<10)botDark++;}
       if(x<borderX){leftCount++;if(l<10)leftDark++;}
       if(x>=w-borderX){rightCount++;if(l<10)rightDark++;}
-      // Thin sliver checks (just 1-3px from each edge)
-      if(y<thinPy){thinTopCount++;if(l<6)thinTopDark++;}
-      if(y>=h-thinPy){thinBotCount++;if(l<6)thinBotDark++;}
-      if(x<thinPx){thinLeftCount++;if(l<6)thinLeftDark++;}
-      if(x>=w-thinPx){thinRightCount++;if(l<6)thinRightDark++;}
     }
   }
-  const meanL=sumL/total;
-  const stdL=Math.sqrt(Math.max(0,sumL2/total-meanL*meanL));
+  const centerMeanL=centerCount?centerSum/centerCount:0;
   return{
-    meanL,stdL,sat:sumSat/total,
-    highPct:high/total,shadowPct:shadow/total,
+    meanL:sumL/total,
+    centerMeanL,
     borderDarkPct:borderCount?borderDark/borderCount:0,
     topDarkPct:topCount?topDark/topCount:0,
     botDarkPct:botCount?botDark/botCount:0,
     leftDarkPct:leftCount?leftDark/leftCount:0,
-    rightDarkPct:rightCount?rightDark/rightCount:0,
-    thinTopPct:thinTopCount?thinTopDark/thinTopCount:0,
-    thinBotPct:thinBotCount?thinBotDark/thinBotCount:0,
-    thinLeftPct:thinLeftCount?thinLeftDark/thinLeftCount:0,
-    thinRightPct:thinRightCount?thinRightDark/thinRightCount:0
+    rightDarkPct:rightCount?rightDark/rightCount:0
   };
 }
 
@@ -890,45 +823,44 @@ async function analyzeVisual(){
     }
 
     const avgLuma=mean(samples.map(s=>s.meanL));
-    const avgHighlightPct=mean(samples.map(s=>s.highPct));
-    const avgShadowPct=mean(samples.map(s=>s.shadowPct));
+    const avgCenterLuma=mean(samples.map(s=>s.centerMeanL));
 
     // Sample spacing stats
     const avgGap=sampleGaps.length?mean(sampleGaps):meta.dur;
     const maxGap=sampleGaps.length?Math.max(...sampleGaps):meta.dur;
 
-    // Border detection
+    // Border detection — only flag when there's strong contrast between the
+    // dark border zone and the centre of the frame.  A video that is simply
+    // dark all over (night scene, dark background) should NOT be flagged.
+    //
+    // Two guards are required:
+    //  1. The centre of the frame must have meaningful content (centerMeanL > 25)
+    //     so that we don't flag genuinely dark/black frames.
+    //  2. The contrast ratio between centre and border must be large enough
+    //     (centre at least 3× brighter) to distinguish real bars from just
+    //     dark creative content that happens to be near the edges.
+    const contrastRatio=avgCenterLuma>0?(avgCenterLuma/Math.max(1,avgLuma-avgCenterLuma)):0;
+    const minCenterLuma=25;  // centre must be brighter than near-black
+    const minContrast=3;     // centre must be significantly brighter than edges
+
     const borderSamples=samples.filter(s=>s.borderDarkPct>0.96).length;
-    const likelyBorders=borderSamples>=Math.ceil(samples.length*0.65)&&avgLuma>18;
+    const likelyBorders=borderSamples>=Math.ceil(samples.length*0.65)
+                        &&avgCenterLuma>minCenterLuma
+                        &&contrastRatio>minContrast;
 
-    // NEW: per-edge sliver detection (thin 1-3px strips)
-    const sliverThreshold=0.85; // 85% of thin edge pixels are dark
-    const sliverMinFrames=0.6; // must appear in 60% of frames
-    const thinTopCount=samples.filter(s=>s.thinTopPct>sliverThreshold).length;
-    const thinBotCount=samples.filter(s=>s.thinBotPct>sliverThreshold).length;
-    const thinLeftCount=samples.filter(s=>s.thinLeftPct>sliverThreshold).length;
-    const thinRightCount=samples.filter(s=>s.thinRightPct>sliverThreshold).length;
-    const minSliver=Math.ceil(samples.length*sliverMinFrames);
-    const sliverTop=thinTopCount>=minSliver;
-    const sliverBot=thinBotCount>=minSliver;
-    const sliverLeft=thinLeftCount>=minSliver;
-    const sliverRight=thinRightCount>=minSliver;
-    const hasSlivers=sliverTop||sliverBot||sliverLeft||sliverRight;
-    const sliverEdges=[];
-    if(sliverTop)sliverEdges.push('top');
-    if(sliverBot)sliverEdges.push('bottom');
-    if(sliverLeft)sliverEdges.push('left');
-    if(sliverRight)sliverEdges.push('right');
-
-    // NEW: letterbox/pillarbox detection from per-edge data
+    // Letterbox/pillarbox detection from per-edge data
+    // Same two-guard approach: high dark-pixel percentage in the edge region
+    // AND the centre must be bright enough to confirm there's real content.
     const perEdgeThreshold=0.92;
     const perEdgeMin=Math.ceil(samples.length*0.65);
     const topBarCount=samples.filter(s=>s.topDarkPct>perEdgeThreshold).length;
     const botBarCount=samples.filter(s=>s.botDarkPct>perEdgeThreshold).length;
     const leftBarCount=samples.filter(s=>s.leftDarkPct>perEdgeThreshold).length;
     const rightBarCount=samples.filter(s=>s.rightDarkPct>perEdgeThreshold).length;
-    const letterboxed=(topBarCount>=perEdgeMin&&botBarCount>=perEdgeMin)&&avgLuma>18;
-    const pillarboxed=(leftBarCount>=perEdgeMin&&rightBarCount>=perEdgeMin)&&avgLuma>18;
+    const letterboxed=(topBarCount>=perEdgeMin&&botBarCount>=perEdgeMin)
+                      &&avgCenterLuma>minCenterLuma&&contrastRatio>minContrast;
+    const pillarboxed=(leftBarCount>=perEdgeMin&&rightBarCount>=perEdgeMin)
+                      &&avgCenterLuma>minCenterLuma&&contrastRatio>minContrast;
     let barType='None';
     if(letterboxed&&pillarboxed)barType='Letterbox + Pillarbox';
     else if(letterboxed)barType='Letterbox (top/bottom bars)';
@@ -938,7 +870,7 @@ async function analyzeVisual(){
     let overall='pass';
 
     // -- STRUCTURAL ISSUES ONLY (high confidence, low false-positive) --
-    // Only flag defects that are persistent across the majority of frames (borders, slivers).
+    // Only flag defects that are persistent across the majority of frames (baked-in bars).
     // Checks like dark start/end, mid-black frames, freeze/static, and brightness jumps
     // were removed because sampling cannot reliably distinguish defects from intentional
     // creative choices (fades, cuts to black, slow-mo, still images, scene changes).
@@ -948,23 +880,9 @@ async function analyzeVisual(){
       issues.push({level:'warn',title:'Possible baked-in bars detected ('+barType+')',body:borderSamples+' of '+samples.length+' sampled frames have very dark edges.'+(letterboxed?' Dark bars on top and bottom.':'')+(pillarboxed?' Dark bars on left and right.':''),fix:'Confirm the export is clean and that dark border areas are creative, not baked-in bars.',linkedFrames:'border'});
     }
 
-    if(hasSlivers){
-      overall='warn';
-      issues.push({level:'warn',title:'Dark strip on '+sliverEdges.join(', ')+' edge'+(sliverEdges.length>1?'s':''),body:'The outermost pixels on the '+sliverEdges.join(' and ')+' edge'+(sliverEdges.length>1?'s':'')+' are consistently very dark across most sampled frames. Common causes: misaligned comp, off-by-one crop, scaling error.',fix:'Zoom into the affected edge in your timeline at 200%+ and check for an unwanted dark strip.',linkedFrames:'sliver'});
-    }
-
     statusTag(tag,overall,overall==='warn'?'Review items':'No flags');
 
     sec.innerHTML='';
-
-    // Informational metrics only — no pass/fail judgment on color/exposure
-    const grid=document.createElement('div');grid.className='metric-grid metric-grid-4';
-    grid.innerHTML=
-      metricCell('Avg Luma',avgLuma.toFixed(0),'Reference only')+
-      metricCell('Near-White',(avgHighlightPct*100).toFixed(1)+'%','Pixels > 250 luma')+
-      metricCell('Near-Black',(avgShadowPct*100).toFixed(1)+'%','Pixels < 8 luma')+
-      metricCell('Frames Sampled',String(samples.length),'~'+avgGap.toFixed(2)+'s avg gap');
-    sec.appendChild(grid);
 
     if(issues.length){
       const issuesWrap=document.createElement('div');issuesWrap.className='issue-list';
@@ -994,6 +912,50 @@ async function analyzeVisual(){
     thumbSummary.textContent=issues.length?thumbSummaryText+' Click any issue above to scroll to affected frames.':thumbSummaryText;
     sec.appendChild(thumbSummary);
 
+    // Brightness timeline — visual sparkline of frame brightness over time.
+    // Lets a reviewer instantly spot dips to black, flash frames, or sudden
+    // brightness shifts without us making automated judgment calls.
+    if(samples.length>=2){
+      const btWrap=document.createElement('div');btWrap.className='wf-wrap';btWrap.style.height='50px';btWrap.style.marginTop='8px';
+      const btCv=document.createElement('canvas');btCv.width=900;btCv.height=50;btWrap.appendChild(btCv);
+      const btPH=document.createElement('div');btPH.className='wf-playhead';btPH.id='btPH';btPH.style.left='0%';btWrap.appendChild(btPH);
+      btWrap.addEventListener('click',e=>{
+        const rect=btWrap.getBoundingClientRect();
+        const frac=(e.clientX-rect.left)/rect.width;
+        const vm=q('vidMain');
+        if(vm&&vm.duration)jumpToTime(frac*vm.duration);
+      });
+      sec.appendChild(btWrap);
+
+      const btCx=btCv.getContext('2d'),btW=btCv.width,btH=btCv.height;
+      btCx.fillStyle='#1a1c20';btCx.fillRect(0,0,btW,btH);
+
+      // Draw brightness as filled area chart
+      const lumaVals=samples.map(s=>s.meanL);
+      const maxLuma=Math.max(...lumaVals,1);
+      const barW=btW/samples.length;
+
+      samples.forEach((s,i)=>{
+        const barH=Math.max(1,(s.meanL/maxLuma)*(btH-4));
+        const x=i*barW;
+        const y=btH-barH;
+        // Color: near-black frames in red/warn, normal in muted blue/grey
+        if(s.meanL<3)btCx.fillStyle='#f87171';        // truly black — likely a glitch mid-video
+        else if(s.meanL<10)btCx.fillStyle='#fbbf24';   // very dark
+        else btCx.fillStyle='#6b7280';                  // normal — neutral so it doesn't distract
+        btCx.fillRect(x+.3,y,barW-.6,barH);
+      });
+
+      // Reference line at 50% brightness
+      const refY=btH-(0.5*(btH-4));
+      btCx.strokeStyle='rgba(255,255,255,0.08)';btCx.lineWidth=1;btCx.setLineDash([4,3]);
+      btCx.beginPath();btCx.moveTo(0,refY);btCx.lineTo(btW,refY);btCx.stroke();btCx.setLineDash([]);
+
+      const btLg=document.createElement('div');btLg.className='wf-legend';
+      btLg.innerHTML='<span style="color:var(--text3)">Brightness timeline</span>';
+      sec.appendChild(btLg);
+    }
+
     // Build per-frame flags for the thumbnail grid
 
     const thumbGrid=document.createElement('div');thumbGrid.className='thumb-grid';
@@ -1001,9 +963,6 @@ async function analyzeVisual(){
       const flags=[];
       // Border
       if(s.borderDarkPct>0.96)flags.push({cls:'tf-border',label:'BARS',type:'border'});
-      // Sliver
-      const hasThinFlag=(sliverTop&&s.thinTopPct>sliverThreshold)||(sliverBot&&s.thinBotPct>sliverThreshold)||(sliverLeft&&s.thinLeftPct>sliverThreshold)||(sliverRight&&s.thinRightPct>sliverThreshold);
-      if(hasThinFlag)flags.push({cls:'tf-sliver',label:'SLIVER',type:'sliver'});
 
       const flagTypes=flags.map(f=>f.type).join(' ');
       const isWarn=flags.length>0;
@@ -1020,91 +979,24 @@ async function analyzeVisual(){
     sec.appendChild(thumbGrid);
 
     const nt=document.createElement('div');nt.className='note';
-    nt.textContent='Checks here are structural only: baked-in bars and edge slivers. These are persistent defects that appear across the majority of frames, so sampling catches them reliably. Checks for dark starts/ends, mid-black frames, freezes, and brightness jumps were removed because sampling cannot reliably distinguish those defects from intentional creative choices (fades, cuts to black, slow-mo, still images, scene changes). Color, exposure, saturation, and grading are also not flagged. Use real scopes for color decisions.';
+    nt.textContent='Frame analysis checks for baked-in bars. Brightness timeline shows per-frame brightness — look for unexpected dips to black or sudden shifts. Click any thumbnail or the timeline to jump to that point.';
     sec.appendChild(nt);
 
     analysisState.visual={
-      avgLuma,avgHighlightPct,avgShadowPct,
       likelyBorders,overall,sampleCount:samples.length,
-      borderSamples,hasSlivers,sliverEdges,
-      letterboxed,pillarboxed,barType,
-      avgGap,stratLabel:strat.label
+      borderSamples,letterboxed,pillarboxed,barType,
+      avgGap,stratLabel:strat.label,
+      avgCenterLuma,contrastRatio
     };
-    renderChecks();
-    placeIssueMarkers();
+    updateOverallTag();
   }catch(e){
     statusTag(tag,'warn','Could not sample');
     sec.innerHTML='<div class="panel-empty">Could not analyze frames in-browser.</div>';
     analysisState.visual={error:true,overall:'warn'};
-    renderChecks();
+    updateOverallTag();
   }
 }
 
-function renderChecks(){
-  const sec=q('checkSection'),tag=q('checkTag');
-  if(!analysisState.audio&&!analysisState.visual)return;
-
-  const items=[];
-  let warnCount=0;
-  let failCount=0;
-
-  const addItem=(item)=>{items.push(item);if(item.level==='fail')failCount++;else if(item.level==='warn')warnCount++;};
-
-  if(meta){
-    const is916=meta.ratio==='9:16';
-    addItem({label:'Frame',value:is916?'9:16':meta.ratio,sub:is916?'Platform-native':'Guide is approximate',level:is916?'pass':'warn'});
-
-    // NEW: platform duration checks
-    const dur=meta.dur;
-    const durIssues=[];
-    if(dur>90)durIssues.push('Over 90s (Reels max)');
-    if(dur>180)durIssues.push('Over 3min (TikTok typical max)');
-    if(dur<3)durIssues.push('Under 3s (some platforms reject)');
-    if(dur>60&&dur<=90)durIssues.push('Over 60s (older Reels limit)');
-    addItem({label:'Duration',value:fmt(dur),sub:durIssues.length?durIssues[0]:'Within common limits',level:durIssues.length?'warn':'pass'});
-  }
-
-  if(analysisState.visual){
-    addItem(analysisState.visual.likelyBorders
-      ?{label:'Embedded Bars',value:analysisState.visual.barType!=='None'?analysisState.visual.barType:'Possible',sub:'Dark borders repeat across samples',level:'warn'}
-      :{label:'Embedded Bars',value:'None',sub:'Not found in sampled frames',level:'pass'});
-
-    addItem(analysisState.visual.hasSlivers
-      ?{label:'Edge Slivers',value:analysisState.visual.sliverEdges.join(', '),sub:'Thin black strip on edge',level:'warn'}
-      :{label:'Edge Slivers',value:'None',sub:'Not found at sample resolution',level:'pass'});
-  }
-
-  if(analysisState.audio){
-    if(analysisState.audio.noAudio){
-      addItem({label:'Audio Track',value:'Missing',sub:'No readable audio track found',level:'warn'});
-    }else{
-      addItem({label:'Audio',value:analysisState.audio.overall==='fail'?'Fix':analysisState.audio.overall==='warn'?'Review':'OK',sub:analysisState.audio.overall==='pass'?'No clipping detected':'Review flagged items above',level:analysisState.audio.overall});
-
-      addItem(analysisState.audio.clipBins>0
-        ?{label:'Clipping',value:analysisState.audio.clipBins+' bin'+(analysisState.audio.clipBins>1?'s':''),sub:'Peaks at full scale',level:'fail'}
-        :{label:'Clipping',value:'None',sub:'No full-scale peaks found',level:'pass'});
-    }
-  }
-
-  sec.innerHTML='<div class="check-grid">'+items.map(i=>checkCell(i.label,i.value,i.sub,i.level)).join('')+'</div>';
-
-  const note=document.createElement('div');
-  note.className='note';
-  note.textContent='Every check above is based on sampling or estimation. "OK" means the issue was not found at the points we sampled, not that the issue definitely does not exist. Problems between sample points, at the actual pixel level, or in areas these heuristics do not cover will be missed. A full manual watch-through is still required.';
-  sec.appendChild(note);
-
-  if(failCount)statusTag(tag,'fail',failCount+' fail item'+(failCount===1?'':'s'));
-  else if(warnCount)statusTag(tag,'warn',warnCount+' item'+(warnCount===1?'':'s'));
-  else statusTag(tag,'pass','No flags');
-
-  // Update overall header tag
-  const oTag=q('overallTag');
-  if(oTag){
-    if(failCount){statusTag(oTag,'fail','ISSUES FOUND');oTag.style.display='';}
-    else if(warnCount){statusTag(oTag,'warn',warnCount+' TO REVIEW');oTag.style.display='';}
-    else{statusTag(oTag,'pass','LOOKS OK');oTag.style.display='';}
-  }
-}
 </script>
 </body>
 </html>
