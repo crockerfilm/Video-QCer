@@ -74,6 +74,10 @@ button{cursor:pointer;font-family:var(--sans)}
 .crop-wrap video{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;display:block}
 
 .specs-grid,.metric-grid,.check-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-bottom:1px solid var(--border)}
+.metric-grid-4{grid-template-columns:repeat(4,1fr)}
+.metric-grid-4 .metric-cell:nth-child(3n){border-right:1px solid var(--border)}
+.metric-grid-4 .metric-cell:nth-child(4n){border-right:none}
+.metric-grid-4 .metric-cell:last-child{border-right:none}
 .spec-cell,.metric-cell,.check-cell{padding:8px 12px;border-right:1px solid var(--border);text-align:center;background:var(--surface)}
 .spec-cell:last-child,.metric-cell:last-child,.check-cell:last-child{border-right:none}
 .spec-cell:nth-child(3n),.metric-cell:nth-child(3n),.check-cell:nth-child(3n){border-right:none}
@@ -114,8 +118,6 @@ button{cursor:pointer;font-family:var(--sans)}
 .wf-legend span::before{content:'';display:inline-block;width:7px;height:7px;border-radius:2px;margin-right:3px;vertical-align:middle}
 .leg-ok::before{background:#34d399}
 .leg-clip::before{background:#f87171}
-.leg-quiet::before{background:#fbbf24}
-.leg-pop::before{background:#c084fc}
 .note{font-size:9px;color:var(--text3);font-family:var(--mono);margin-top:6px;line-height:1.5}
 .disclaimer-banner{margin:12px 14px 10px;padding:14px 16px;border:1px solid var(--border2);background:var(--surface2);border-radius:12px;box-shadow:var(--shadow)}
 .disclaimer-banner .title{font-size:13px;font-weight:700;color:var(--text);letter-spacing:-0.1px;margin-bottom:6px}
@@ -126,15 +128,11 @@ button{cursor:pointer;font-family:var(--sans)}
 .thumb-card{appearance:none;-webkit-appearance:none;text-align:left;background:var(--surface2);border:1px solid var(--border);border-radius:10px;overflow:hidden;padding:0;box-shadow:var(--shadow);cursor:pointer;transition:transform .12s,border-color .12s,box-shadow .12s}
 .thumb-card:hover{transform:translateY(-1px);border-color:var(--border2)}
 .thumb-card.flagged{border-color:var(--warn-border);background:var(--warn-bg)}
-.thumb-card.flagged-severe{border-color:var(--fail-border);background:var(--fail-bg)}
 .thumb-card.highlight-pulse{animation:thumbPulse 1.5s ease-out;z-index:2}
 @keyframes thumbPulse{0%{box-shadow:0 0 0 3px var(--warn)}50%{box-shadow:0 0 0 5px var(--warn)}100%{box-shadow:var(--shadow)}}
 .thumb-card .thumb-flags{display:flex;flex-wrap:wrap;gap:2px;margin-top:2px}
 .thumb-flag{font-size:6px;padding:1px 3px;border-radius:2px;font-weight:700;font-family:var(--mono);line-height:1.2}
-.thumb-flag.tf-dark{background:#fbbf24;color:#111}
 .thumb-flag.tf-border{background:#a78bfa;color:#111}
-.thumb-flag.tf-static{background:#818cf8;color:#111}
-.thumb-flag.tf-flicker{background:#fb923c;color:#111}
 .thumb-flag.tf-sliver{background:#f472b6;color:#111}
 .issue-linked{cursor:pointer;transition:transform .1s}
 .issue-linked:hover{transform:translateX(2px)}
@@ -147,10 +145,6 @@ button{cursor:pointer;font-family:var(--sans)}
 .progress-fill{height:100%;background:var(--accent);border-radius:2px;transition:width 0.15s ease-out;width:0%}
 
 .hidden{display:none!important}
-.issue-marker{position:absolute;top:0;width:3px;height:4px;border-radius:1px;pointer-events:auto;cursor:pointer;opacity:0.85}
-.issue-marker:hover{opacity:1;height:6px;top:-1px}
-.issue-marker.warn{background:var(--warn)}
-.issue-marker.fail{background:var(--fail)}
 .kbd-hint{font-size:8px;font-family:var(--mono);color:var(--text4);padding:2px 5px;background:var(--surface3);border:1px solid var(--border);border-radius:3px;margin-left:4px;white-space:nowrap}
 #speedSelect{-webkit-appearance:none;appearance:none;background:var(--surface2);color:var(--text2);cursor:pointer}
 #stepBackBtn,#stepFwdBtn{font-size:10px;min-width:28px;padding:4px 6px}
@@ -160,7 +154,7 @@ button{cursor:pointer;font-family:var(--sans)}
 }
 @media(max-width:640px){
   .audio-stats{grid-template-columns:repeat(2,1fr)}
-  .specs-grid,.metric-grid,.check-grid{grid-template-columns:repeat(2,1fr)}
+  .specs-grid,.metric-grid,.metric-grid-4,.check-grid{grid-template-columns:repeat(2,1fr)}
   .spec-cell:nth-child(3n),.metric-cell:nth-child(3n),.check-cell:nth-child(3n){border-right:1px solid var(--border)}
   .spec-cell:nth-child(2n),.metric-cell:nth-child(2n),.check-cell:nth-child(2n){border-right:none}
 }
@@ -168,7 +162,7 @@ button{cursor:pointer;font-family:var(--sans)}
 </head>
 <body>
 <div class="hdr">
-  <h1>FrameCheck <span class="sub" style="margin-left:6px">v1.0</span></h1>
+  <h1>FrameCheck <span class="sub" style="margin-left:6px">v1.1</span></h1>
   <div class="hdr-r">
     <span class="tag" id="overallTag" style="display:none"></span>
     <button class="btn" id="exportBtn" style="display:none" title="Export QC report as text">Export Report</button>
@@ -209,9 +203,8 @@ button{cursor:pointer;font-family:var(--sans)}
       <button class="btn-dark" id="playBtn" style="min-width:56px" title="Space to play/pause">&#9654; Play</button>
       <button class="btn-soft" id="stepBackBtn" title="← Previous frame (,)">&#9664;|</button>
       <button class="btn-soft" id="stepFwdBtn" title="→ Next frame (.)">|&#9654;</button>
-      <div style="position:relative;flex:1;display:flex;flex-direction:column;gap:0">
+      <div style="position:relative;flex:1">
         <input type="range" class="slider" id="scrubber" min="0" max="10000" value="0">
-        <div id="issueMarkers" style="position:relative;height:4px;margin-top:-2px;pointer-events:none"></div>
       </div>
       <span class="time" id="timeLabel">0:00 / 0:00</span>
       <select id="speedSelect" class="btn" style="min-width:52px;font-family:var(--mono);font-size:10px" title="Playback speed ([ and ] to change)">
@@ -244,7 +237,7 @@ button{cursor:pointer;font-family:var(--sans)}
 
     <div class="panel disclaimer-banner">
       <div class="title">This is a safe zone and cropping tool with a few bonus checks</div>
-      <div class="body">FrameCheck is primarily built for <strong>previewing safe zones, checking aspect ratio crops, and catching obvious structural defects</strong> like black frames, baked-in bars, or edge slivers. The audio and frame analysis sections are lightweight bonus flags — they can catch clipping or an extremely quiet export, but they are not a substitute for proper audio metering or color scoping. <strong>This tool does not replace human QC.</strong> It cannot read text, so it will never catch typos, misspellings, wrong copy, incorrect legal lines, or bad supers. It cannot judge timing, pacing, brand tone, or whether the edit actually makes sense. It cannot verify platform-specific safe zone compliance beyond the static overlay shown here. <strong>Every video still requires a detailed human watch-through before approval</strong> — eyes on every frame, reading every word on screen. Use FrameCheck to speed up the mechanical checks, not to skip the human ones.</div>
+      <div class="body">FrameCheck is primarily built for <strong>previewing safe zones, checking aspect ratio crops, and catching obvious structural defects</strong> like baked-in bars or edge slivers. The audio section is a lightweight bonus flag — it can catch clipping or flag an extremely quiet export, but it is not a substitute for proper loudness metering (your DAW's integrated LUFS meter is always more accurate). <strong>This tool does not replace human QC.</strong> It cannot read text, so it will never catch typos, misspellings, wrong copy, incorrect legal lines, or bad supers. It cannot judge timing, pacing, brand tone, or whether the edit actually makes sense. It cannot verify platform-specific safe zone compliance beyond the static overlay shown here. It does not check for dark starts/ends, black frames, freeze frames, or brightness issues — sampling cannot reliably distinguish those from intentional creative choices. <strong>Every video still requires a detailed human watch-through before approval</strong> — eyes on every frame, reading every word on screen. Use FrameCheck to speed up the mechanical checks, not to skip the human ones.</div>
     </div>
 
     <div class="sec-hdr"><span>Specs</span><span class="tag" id="specTag"></span></div>
@@ -279,7 +272,6 @@ function issueHTML(level, title, body, fix){
 function metricCell(label, value, sub){return '<div class="metric-cell"><div class="sl">'+label+'</div><div class="sv">'+value+'</div><div class="ss">'+sub+'</div></div>';}
 function checkCell(label, value, sub, level){return '<div class="check-cell'+(level==='warn'?' check-warn':level==='fail'?' check-fail':' check-pass')+'"><div class="sl">'+label+'</div><div class="sv">'+value+'</div><div class="ss">'+sub+'</div></div>';}
 function mean(arr){return arr.reduce((a,b)=>a+b,0)/Math.max(arr.length,1);}
-function longestTruthyRun(arr){let best=0,run=0;for(const v of arr){if(v){run++;if(run>best)best=run;}else run=0;}return best;}
 
 // Adaptive sampling: interval and edge window scale with video length
 function getSampleStrategy(duration){
@@ -511,7 +503,7 @@ function cycleSpeed(dir){
 function wireExport(){
   q('exportBtn').onclick=()=>{
     if(!meta)return;
-    let report='FRAMECHECK QC REPORT (v1.0)\n';
+    let report='FRAMECHECK QC REPORT (v1.1)\n';
     report+='============================\n';
     report+='File: '+meta.name+'\n';
     report+='Resolution: '+meta.w+'x'+meta.h+' ('+meta.ratio+')\n';
@@ -540,13 +532,8 @@ function wireExport(){
       const v=analysisState.visual;
       report+='Overall: '+v.overall.toUpperCase()+'\n';
       report+='Frames Sampled: '+v.sampleCount+' ('+v.stratLabel+')\n';
-      report+='Start Dark: '+(v.startDark?'YES':'No')+'\n';
-      report+='End Dark: '+(v.endDark?'YES':'No')+'\n';
-      report+='Mid Black Frames: '+(v.hasMidBlack?v.midBlackCount:'None')+'\n';
       report+='Embedded Bars: '+(v.likelyBorders?v.barType:'None')+'\n';
       report+='Edge Slivers: '+(v.hasSlivers?v.sliverEdges.join(', '):'None')+'\n';
-      report+='Flash/Flicker: '+(v.hasFlicker?v.flickerCount+' hit(s)':'None')+'\n';
-      report+='Freeze Risk: '+(v.likelyStatic?'YES - ~'+(v.longestStaticRun*(v.avgGap||1)).toFixed(1)+'s static span':'Low')+'\n';
       report+='\nReference (not flagged):\n';
       report+='  Avg Luma: '+v.avgLuma.toFixed(0)+'\n';
       report+='  Near-White: '+(v.avgHighlightPct*100).toFixed(1)+'%\n';
@@ -566,40 +553,8 @@ function wireExport(){
   };
 }
 
-// Place issue markers on the scrubber
-function placeIssueMarkers(){
-  const container=q('issueMarkers');
-  if(!container||!meta||!meta.dur)return;
-  container.innerHTML='';
-  const markers=[];
-
-  // Gather timestamps from visual issues
-  if(analysisState.visual){
-    if(analysisState.visual.startDark)markers.push({time:0,level:'warn',label:'Dark start frames'});
-    if(analysisState.visual.endDark)markers.push({time:meta.dur,level:'warn',label:'Dark end frames'});
-    if(analysisState.visual.flickerPairs){
-      analysisState.visual.flickerPairs.forEach(p=>{
-        markers.push({time:p.from,level:'warn',label:'Brightness jump at '+fmt(p.from)});
-      });
-    }
-    if(analysisState.visual.midBlackTimes){
-      analysisState.visual.midBlackTimes.forEach(t=>{
-        markers.push({time:t,level:'fail',label:'Black frame at '+fmt(t)});
-      });
-    }
-  }
-
-  markers.forEach(m=>{
-    const el=document.createElement('div');
-    el.className='issue-marker '+m.level;
-    el.style.left=((m.time/meta.dur)*100)+'%';
-    el.title=m.label;
-    el.style.cursor='pointer';
-    el.style.pointerEvents='auto';
-    el.addEventListener('click',()=>jumpToTime(m.time));
-    container.appendChild(el);
-  });
-}
+// Issue markers on the scrubber (stub — no per-timestamp checks remain)
+function placeIssueMarkers(){}
 
 function mkCrop(id,pct){
   const c=q(id);c.innerHTML='';
@@ -750,10 +705,14 @@ async function analyzeAudio(file){
     }
 
     // Extremely quiet: only flag if the RMS estimate is very far below social targets.
-    // -20 is well below any reasonable social target even accounting for RMS/LUFS error margin.
-    if(estLufs<-20){
+    // The RMS→LUFS estimate can easily be 4–6 dB off from true integrated LUFS because
+    // it has no K-weighting (which boosts perceived mid-frequencies) and no gating
+    // (which ignores silent passages). A file that reads -20 here may well be -14 to -16
+    // true LUFS, which is perfectly normal for YouTube/social. Only flag at -24 or below,
+    // where the file is almost certainly too quiet even after accounting for the margin.
+    if(estLufs<-24){
       if(overall!=='fail')overall='warn';
-      issues.push({level:'warn',title:'Audio is very quiet',body:'Rough RMS-based estimate reads around '+estLufs.toFixed(1)+'. This is not true LUFS, but at this level the file is likely too quiet for any social platform.',fix:'Confirm with a proper loudness meter. If confirmed, raise the master and limit.'});
+      issues.push({level:'warn',title:'Audio may be very quiet',body:'Rough RMS-based estimate reads around '+estLufs.toFixed(1)+'. This is <strong>not</strong> true LUFS — it lacks K-weighting and gating, so it can easily read 4–6 dB lower than your DAW\'s loudness meter. At this level, though, the file may still be too quiet for social platforms.',fix:'Check your DAW\'s integrated LUFS meter (the most reliable reading). If it shows -14 to -16 LUFS for YouTube or -13 to -15 for Reels/TikTok, you\'re fine — ignore this warning.'});
     }
 
     statusTag(tag,overall,overall==='fail'?'Likely issue':overall==='warn'?'Review':'No flags');
@@ -762,7 +721,7 @@ async function analyzeAudio(file){
     // Stats grid: reference only, no pass/fail coloring
     const stats=document.createElement('div');stats.className='audio-stats';
     [
-      {l:'RMS Loudness',v:estLufs.toFixed(1)+' (est)',s:'Rough estimate, not true LUFS'},
+      {l:'RMS Loudness',v:estLufs.toFixed(1)+' (est)',s:'Rough RMS estimate — not true LUFS. Can read 4–6 dB lower than your DAW.'},
       {l:'Sample Peak',v:peakDb.toFixed(1)+' dBFS',s:'Not true peak'},
       {l:'Channels',v:channels===2?'Stereo':channels===1?'Mono':channels+'ch',s:(buf.sampleRate/1000).toFixed(1)+'kHz'},
       {l:'Duration',v:fmt(duration),s:Math.round(duration)+'s'},
@@ -813,7 +772,7 @@ async function analyzeAudio(file){
     }
 
     const nt=document.createElement('div');nt.className='note';
-    nt.textContent='Loudness is a rough RMS estimate, not true LUFS (no K-weighting or gating). Sample peak is not true peak. Only clipping and extremely quiet audio are flagged here. Volume jumps, quiet sections, stereo balance, and transients are not flagged because they cannot be reliably distinguished from intentional creative choices. Use a proper loudness meter for final decisions.';
+    nt.textContent='Loudness is a rough RMS estimate, not true LUFS (no K-weighting or gating). This estimate can easily read 4–6 dB lower than your DAW\'s integrated LUFS meter — that gap is normal and expected. Your DAW\'s loudness meter is always more accurate than this estimate. Sample peak is not true peak. Only clipping and extremely quiet audio are flagged here. Volume jumps, quiet sections, stereo balance, and transients are not flagged because they cannot be reliably distinguished from intentional creative choices. Use a proper loudness meter for final decisions.';
     sec.appendChild(nt);
 
     analysisState.audio={
@@ -833,11 +792,10 @@ async function analyzeAudio(file){
 function frameStats(data,w,h){
   let sumL=0,sumL2=0,sumSat=0,sumR=0,sumG=0,sumB=0;
   let high=0,shadow=0;
-  const compact=[];
   const total=w*h;
   const borderX=Math.max(2,Math.floor(w*0.06));
   const borderY=Math.max(2,Math.floor(h*0.06));
-  // NEW: thin edge strips (2-3px) for sliver detection
+  // Thin edge strips (2-3px) for sliver detection
   const thinPx=Math.max(1,Math.min(3,Math.floor(w*0.02)));
   const thinPy=Math.max(1,Math.min(3,Math.floor(h*0.015)));
   let borderDark=0,borderCount=0;
@@ -872,8 +830,6 @@ function frameStats(data,w,h){
       if(y>=h-thinPy){thinBotCount++;if(l<6)thinBotDark++;}
       if(x<thinPx){thinLeftCount++;if(l<6)thinLeftDark++;}
       if(x>=w-thinPx){thinRightCount++;if(l<6)thinRightDark++;}
-      // Compact hash for static detection
-      if(((x+y)%13)===0){compact.push(l);}
     }
   }
   const meanL=sumL/total;
@@ -881,7 +837,6 @@ function frameStats(data,w,h){
   return{
     meanL,stdL,sat:sumSat/total,
     highPct:high/total,shadowPct:shadow/total,
-    avgR:sumR/total,avgG:sumG/total,avgB:sumB/total,
     borderDarkPct:borderCount?borderDark/borderCount:0,
     topDarkPct:topCount?topDark/topCount:0,
     botDarkPct:botCount?botDark/botCount:0,
@@ -890,17 +845,8 @@ function frameStats(data,w,h){
     thinTopPct:thinTopCount?thinTopDark/thinTopCount:0,
     thinBotPct:thinBotCount?thinBotDark/thinBotCount:0,
     thinLeftPct:thinLeftCount?thinLeftDark/thinLeftCount:0,
-    thinRightPct:thinRightCount?thinRightDark/thinRightCount:0,
-    compact
+    thinRightPct:thinRightCount?thinRightDark/thinRightCount:0
   };
-}
-
-function compactDiff(a,b){
-  if(!a||!b||!a.length||!b.length)return 999;
-  const len=Math.min(a.length,b.length);
-  let sum=0;
-  for(let i=0;i<len;i++)sum+=Math.abs(a[i]-b[i]);
-  return sum/len;
 }
 
 async function seekVideo(video,time){
@@ -929,8 +875,6 @@ async function analyzeVisual(){
     const times=generateSampleTimes(meta.dur);
     const strat=getSampleStrategy(meta.dur);
     const samples=[];
-    let prevCompact=null;
-    const diffs=[];
     const sampleGaps=[]; // track actual gaps between samples
     for(let ti=0;ti<times.length;ti++){
       const t=times[ti];
@@ -941,80 +885,17 @@ async function analyzeVisual(){
       cx.drawImage(v,0,0,cw,ch);
       const img=cx.getImageData(0,0,cw,ch).data;
       const stats=frameStats(img,cw,ch);
-      const diff=prevCompact?compactDiff(prevCompact,stats.compact):null;
-      if(diff!==null)diffs.push(diff);
-      prevCompact=stats.compact;
       const thumbUrl=canvas.toDataURL('image/jpeg',0.72);
-      const severeFlag=stats.highPct>0.08||stats.shadowPct>0.92;
-      const warnFlag=severeFlag||stats.highPct>0.03||(stats.shadowPct>0.55&&stats.meanL<55);
-      samples.push({time:t,thumbUrl,severeFlag,warnFlag,...stats,diff});
+      samples.push({time:t,thumbUrl,...stats});
     }
 
     const avgLuma=mean(samples.map(s=>s.meanL));
-    const avgContrast=mean(samples.map(s=>s.stdL));
-    const avgSat=mean(samples.map(s=>s.sat));
     const avgHighlightPct=mean(samples.map(s=>s.highPct));
-    const maxHighlightPct=Math.max(...samples.map(s=>s.highPct));
     const avgShadowPct=mean(samples.map(s=>s.shadowPct));
-    const maxShadowPct=Math.max(...samples.map(s=>s.shadowPct));
-    const avgR=mean(samples.map(s=>s.avgR));
-    const avgG=mean(samples.map(s=>s.avgG));
-    const avgB=mean(samples.map(s=>s.avgB));
 
     // Sample spacing stats
     const avgGap=sampleGaps.length?mean(sampleGaps):meta.dur;
     const maxGap=sampleGaps.length?Math.max(...sampleGaps):meta.dur;
-    const minGap=sampleGaps.length?Math.min(...sampleGaps):meta.dur;
-
-    // Start/end black detection - uses the strategy's edge window
-    const edgeWindow=strat.edgeWindow;
-    const nearStartSamples=samples.filter(s=>s.time<=edgeWindow);
-    const nearEndSamples=samples.filter(s=>s.time>=Math.max(0,meta.dur-edgeWindow));
-    const darkSample=s=>s.meanL<18||s.shadowPct>0.82;
-    const startDark=nearStartSamples.length?nearStartSamples.filter(darkSample).length>=Math.max(2,Math.ceil(nearStartSamples.length*0.5)):false;
-    const endDark=nearEndSamples.length?nearEndSamples.filter(darkSample).length>=Math.max(2,Math.ceil(nearEndSamples.length*0.5)):false;
-
-    // NEW: mid-video black frame detection
-    const bodyStart=edgeWindow;
-    const bodyEnd=Math.max(0,meta.dur-edgeWindow);
-    const bodySamples=samples.filter(s=>s.time>bodyStart&&s.time<bodyEnd);
-    const midBlackFrames=bodySamples.filter(s=>s.meanL<10&&s.shadowPct>0.9);
-    const hasMidBlack=midBlackFrames.length>0;
-
-    // Flash/flicker detection - threshold adapts to sample spacing
-    // Close samples (0.2s): a 50-point jump is suspicious
-    // Distant samples (2s): a 50-point jump is just a scene change, need 80+
-    const flickerPairs=[];
-    for(let i=1;i<samples.length;i++){
-      const gap=samples[i].time-samples[i-1].time;
-      // Scale threshold: tighter when samples are close, looser when far apart
-      const flickerThreshold=clamp(40+(gap*30),45,100);
-      const jump=Math.abs(samples[i].meanL-samples[i-1].meanL);
-      if(jump>flickerThreshold){
-        flickerPairs.push({from:samples[i-1].time,to:samples[i].time,jump:jump.toFixed(0),gap:gap.toFixed(2)});
-      }
-    }
-    const hasFlicker=flickerPairs.length>0;
-
-    // Static/freeze detection - adapts threshold and streak length to spacing
-    // Close samples (0.2s apart): diff < 1.5 is suspicious, 2 in a row is a streak
-    // Distant samples (2s apart): diff < 1.0 is suspicious, even 1 match is worth noting
-    const staticFlags=diffs.map((d,i)=>{
-      if(d===null)return false;
-      // Get the gap between this sample pair
-      const pairGap=(i+1<samples.length)?samples[i+1].time-samples[i].time:avgGap;
-      // Tighter threshold when samples are close (less expected change)
-      // Looser when far apart (more change expected, so identical is more suspicious)
-      const thresh=clamp(1.2+(pairGap*0.5),1.0,3.0);
-      return d<thresh;
-    });
-    const longestStaticRun=longestTruthyRun(staticFlags);
-    const staticRuns=staticFlags.filter(Boolean).length;
-    // For close-spaced samples, need a longer streak to flag (could be slow motion)
-    // For wide-spaced samples, even 2 identical frames seconds apart is suspicious
-    const minStreak=avgGap<0.3?4:avgGap<0.8?3:2;
-    const minPct=avgGap<0.3?0.5:avgGap<0.8?0.4:0.3;
-    const likelyStatic=diffs.length>=3&&(longestStaticRun>=minStreak||staticRuns>=Math.ceil(diffs.length*minPct));
 
     // Border detection
     const borderSamples=samples.filter(s=>s.borderDarkPct>0.96).length;
@@ -1053,22 +934,14 @@ async function analyzeVisual(){
     else if(letterboxed)barType='Letterbox (top/bottom bars)';
     else if(pillarboxed)barType='Pillarbox (left/right bars)';
 
-    const castStrength=Math.max(Math.abs(avgR-avgG),Math.abs(avgR-avgB),Math.abs(avgG-avgB));
-    let castLabel='Balanced';
-    if(castStrength>18){
-      const max=Math.max(avgR,avgG,avgB);
-      castLabel=max===avgR?'Red cast':max===avgG?'Green cast':'Blue cast';
-    }
-
     const issues=[];
     let overall='pass';
 
     // -- STRUCTURAL ISSUES ONLY (high confidence, low false-positive) --
-
-    if(likelyStatic){
-      overall='warn';
-      issues.push({level:'warn',title:'Consecutive samples look very similar (possible freeze)',body:staticRuns+' pair'+(staticRuns===1?'':'s')+' of consecutive sampled frames had very little visual change, with a longest streak of '+longestStaticRun+'. Samples are about '+avgGap.toFixed(2)+'s apart, so this spans roughly '+(longestStaticRun*avgGap).toFixed(1)+'s.',fix:'Watch the video at those timestamps. A real freeze frame shorter than '+avgGap.toFixed(2)+'s would not be caught here.',linkedFrames:'static'});
-    }
+    // Only flag defects that are persistent across the majority of frames (borders, slivers).
+    // Checks like dark start/end, mid-black frames, freeze/static, and brightness jumps
+    // were removed because sampling cannot reliably distinguish defects from intentional
+    // creative choices (fades, cuts to black, slow-mo, still images, scene changes).
 
     if(likelyBorders||letterboxed||pillarboxed){
       overall='warn';
@@ -1080,24 +953,12 @@ async function analyzeVisual(){
       issues.push({level:'warn',title:'Dark strip on '+sliverEdges.join(', ')+' edge'+(sliverEdges.length>1?'s':''),body:'The outermost pixels on the '+sliverEdges.join(' and ')+' edge'+(sliverEdges.length>1?'s':'')+' are consistently very dark across most sampled frames. Common causes: misaligned comp, off-by-one crop, scaling error.',fix:'Zoom into the affected edge in your timeline at 200%+ and check for an unwanted dark strip.',linkedFrames:'sliver'});
     }
 
-    if(hasMidBlack){
-      overall='warn';
-      const blackTimes=midBlackFrames.slice(0,5).map(s=>fmt(s.time)).join(', ');
-      issues.push({level:'warn',title:'Black frame'+(midBlackFrames.length>1?'s':'')+' in the body of the video',body:midBlackFrames.length+' frame'+(midBlackFrames.length>1?'s':'')+' near the middle of the export appear almost entirely black. Near: '+blackTimes,fix:'Check for a bad transition, missing asset, or dropped frame at those times.',linkedFrames:'midblack'});
-    }
-
-    if(hasFlicker){
-      overall='warn';
-      const flickerDesc=flickerPairs.slice(0,3).map(p=>'~'+fmt(p.from)+' (jump: '+p.jump+', gap: '+p.gap+'s)').join(', ');
-      issues.push({level:'warn',title:'Large brightness jump between sampled frames',body:flickerPairs.length+' pair'+(flickerPairs.length>1?'s':'')+' of consecutive sample points showed a large luma jump. Near: '+flickerDesc,fix:'A jump across a long gap is probably a normal cut. A jump across a short gap is more likely a flash, strobe, or bad edit.',linkedFrames:'flicker'});
-    }
-
     statusTag(tag,overall,overall==='warn'?'Review items':'No flags');
 
     sec.innerHTML='';
 
     // Informational metrics only — no pass/fail judgment on color/exposure
-    const grid=document.createElement('div');grid.className='metric-grid';
+    const grid=document.createElement('div');grid.className='metric-grid metric-grid-4';
     grid.innerHTML=
       metricCell('Avg Luma',avgLuma.toFixed(0),'Reference only')+
       metricCell('Near-White',(avgHighlightPct*100).toFixed(1)+'%','Pixels > 250 luma')+
@@ -1129,39 +990,27 @@ async function analyzeVisual(){
     }
 
     const thumbSummary=document.createElement('div');thumbSummary.className='thumb-summary';
-    thumbSummary.textContent='Sampled '+samples.length+' frames across '+fmt(meta.dur)+' (avg gap: '+avgGap.toFixed(2)+'s, max gap: '+maxGap.toFixed(2)+'s). '+strat.label+'. Click any frame to jump there. Click any issue above to scroll to affected frames.';
+    const thumbSummaryText='Sampled '+samples.length+' frames across '+fmt(meta.dur)+' (avg gap: '+avgGap.toFixed(2)+'s, max gap: '+maxGap.toFixed(2)+'s). '+strat.label+'. Click any frame to jump there.';
+    thumbSummary.textContent=issues.length?thumbSummaryText+' Click any issue above to scroll to affected frames.':thumbSummaryText;
     sec.appendChild(thumbSummary);
 
     // Build per-frame flags for the thumbnail grid
-    const flickerTimes=new Set();
-    flickerPairs.forEach(p=>{flickerTimes.add(p.from);flickerTimes.add(p.to);});
-    const midBlackTimeSet=new Set(midBlackFrames.map(s=>s.time));
 
     const thumbGrid=document.createElement('div');thumbGrid.className='thumb-grid';
     samples.forEach((s,idx)=>{
       const flags=[];
-      // Black frame
-      if(midBlackTimeSet.has(s.time))flags.push({cls:'tf-dark',label:'BLACK',type:'midblack'});
-      // Dark start/end
-      if(s.time<=edgeWindow&&darkSample(s))flags.push({cls:'tf-dark',label:'DARK',type:'dark'});
-      if(s.time>=Math.max(0,meta.dur-edgeWindow)&&darkSample(s))flags.push({cls:'tf-dark',label:'DARK',type:'dark'});
       // Border
       if(s.borderDarkPct>0.96)flags.push({cls:'tf-border',label:'BARS',type:'border'});
       // Sliver
       const hasThinFlag=(sliverTop&&s.thinTopPct>sliverThreshold)||(sliverBot&&s.thinBotPct>sliverThreshold)||(sliverLeft&&s.thinLeftPct>sliverThreshold)||(sliverRight&&s.thinRightPct>sliverThreshold);
       if(hasThinFlag)flags.push({cls:'tf-sliver',label:'SLIVER',type:'sliver'});
-      // Static
-      if(idx>0&&staticFlags[idx-1])flags.push({cls:'tf-static',label:'STATIC',type:'static'});
-      // Flicker
-      if(flickerTimes.has(s.time))flags.push({cls:'tf-flicker',label:'JUMP',type:'flicker'});
 
       const flagTypes=flags.map(f=>f.type).join(' ');
-      const isSevere=flags.some(f=>f.type==='midblack');
       const isWarn=flags.length>0;
 
       const card=document.createElement('button');
       card.type='button';
-      card.className='thumb-card'+(isSevere?' flagged-severe':isWarn?' flagged':'');
+      card.className='thumb-card'+(isWarn?' flagged':'');
       if(flagTypes)card.setAttribute('data-flags',flagTypes);
       const flagsHTML=flags.length?'<div class="thumb-flags">'+flags.map(f=>'<span class="thumb-flag '+f.cls+'">'+f.label+'</span>').join('')+'</div>':'';
       card.innerHTML='<img src="'+s.thumbUrl+'" alt="Sample at '+fmt(s.time)+'"><div class="thumb-meta-wrap"><div class="thumb-time">'+fmt(s.time)+'</div>'+flagsHTML+'</div>';
@@ -1171,19 +1020,15 @@ async function analyzeVisual(){
     sec.appendChild(thumbGrid);
 
     const nt=document.createElement('div');nt.className='note';
-    nt.textContent='Checks here are structural only: black frames, bars, slivers, freezes, and brightness jumps. Color, exposure, saturation, and grading are not flagged because pixel-averaging at reduced resolution cannot reliably distinguish problems from intentional creative choices. Use real scopes for color decisions.';
-    sec.appendChild(nt);
+    nt.textContent='Checks here are structural only: baked-in bars and edge slivers. These are persistent defects that appear across the majority of frames, so sampling catches them reliably. Checks for dark starts/ends, mid-black frames, freezes, and brightness jumps were removed because sampling cannot reliably distinguish those defects from intentional creative choices (fades, cuts to black, slow-mo, still images, scene changes). Color, exposure, saturation, and grading are also not flagged. Use real scopes for color decisions.';
     sec.appendChild(nt);
 
     analysisState.visual={
-      avgLuma,avgContrast,avgSat,avgHighlightPct,maxHighlightPct,avgShadowPct,maxShadowPct,castLabel,
-      likelyBorders,startDark,endDark,likelyStatic,overall,sampleCount:samples.length,
-      staticRuns,longestStaticRun,borderSamples,
-      hasSlivers,sliverEdges,hasMidBlack,midBlackCount:midBlackFrames.length,
-      midBlackTimes:midBlackFrames.map(s=>s.time),
-      hasFlicker,flickerCount:flickerPairs.length,flickerPairs,
+      avgLuma,avgHighlightPct,avgShadowPct,
+      likelyBorders,overall,sampleCount:samples.length,
+      borderSamples,hasSlivers,sliverEdges,
       letterboxed,pillarboxed,barType,
-      avgGap,maxGap,minGap,stratLabel:strat.label
+      avgGap,stratLabel:strat.label
     };
     renderChecks();
     placeIssueMarkers();
@@ -1220,38 +1065,13 @@ function renderChecks(){
   }
 
   if(analysisState.visual){
-    addItem({label:'Sampled Frames',value:analysisState.visual.sampleCount?String(analysisState.visual.sampleCount):'--',sub:analysisState.visual.avgGap?'~'+analysisState.visual.avgGap.toFixed(2)+'s avg gap':'Visible in Color section',level:'pass'});
-
-    addItem(analysisState.visual.startDark
-      ?{label:'Start Frames',value:'Dark',sub:'Multiple early samples are dark',level:'warn'}
-      :{label:'Start Frames',value:'OK',sub:'Not dark in sampled frames',level:'pass'});
-
-    addItem(analysisState.visual.endDark
-      ?{label:'End Frames',value:'Dark',sub:'Multiple late samples are dark',level:'warn'}
-      :{label:'End Frames',value:'OK',sub:'Not dark in sampled frames',level:'pass'});
-
-    // NEW: mid-video black frames
-    addItem(analysisState.visual.hasMidBlack
-      ?{label:'Mid Black',value:analysisState.visual.midBlackCount+' frame'+(analysisState.visual.midBlackCount>1?'s':''),sub:'Black in body of video',level:'warn'}
-      :{label:'Mid Black',value:'None',sub:'None found at sample points',level:'pass'});
-
     addItem(analysisState.visual.likelyBorders
       ?{label:'Embedded Bars',value:analysisState.visual.barType!=='None'?analysisState.visual.barType:'Possible',sub:'Dark borders repeat across samples',level:'warn'}
       :{label:'Embedded Bars',value:'None',sub:'Not found in sampled frames',level:'pass'});
 
-    // NEW: thin sliver detection
     addItem(analysisState.visual.hasSlivers
       ?{label:'Edge Slivers',value:analysisState.visual.sliverEdges.join(', '),sub:'Thin black strip on edge',level:'warn'}
       :{label:'Edge Slivers',value:'None',sub:'Not found at sample resolution',level:'pass'});
-
-    // NEW: flash/flicker
-    addItem(analysisState.visual.hasFlicker
-      ?{label:'Flash/Flicker',value:analysisState.visual.flickerCount+' hit'+(analysisState.visual.flickerCount>1?'s':''),sub:'Rapid brightness jump',level:'warn'}
-      :{label:'Flash/Flicker',value:'None',sub:'No large jumps between samples',level:'pass'});
-
-    addItem(analysisState.visual.likelyStatic
-      ?{label:'Freeze Risk',value:'Review',sub:'~'+(analysisState.visual.longestStaticRun*(analysisState.visual.avgGap||1)).toFixed(1)+'s static span',level:'warn'}
-      :{label:'Freeze Risk',value:'Low',sub:'No static streak in samples',level:'pass'});
   }
 
   if(analysisState.audio){
